@@ -29,7 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? Center(
                       child: Text(snapshot.error.toString()),
                     )
-                  : const AssignmentWidget();
+                  : Row(
+                      children: [
+                        const AssignmentWidget(),
+                      ],
+                    );
         },
       ),
     );
