@@ -27,53 +27,63 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
               borderRadius: BorderRadius.circular(10),
               color: Colors.white54,
             ),
-            child: Stack(
+            child: Row(
               children: [
-                ListView.builder(
-                  itemCount: value.allAssignment.length,
-                  itemBuilder: (context, index) => Card(
-                    child: ListTile(
-                      title: Text(
-                        value.allAssignment[index].name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 110, 109, 109),
+                Flexible(
+                  flex: 1,
+                  child: ListView.builder(
+                    itemCount: value.allAssignment.length,
+                    itemBuilder: (context, index) => Card(
+                      child: ListTile(
+                        title: Text(
+                          value.allAssignment[index].name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 110, 109, 109),
+                          ),
                         ),
-                      ),
-                      onTap: () async {
-                        // await Provider.of<ResultApi>(context, listen: false).getResult(
-                        //   value.allAssignment[index].courseId,
-                        //   value.allAssignment[index].id,
-                        // );
-                        Provider.of<AssignmentApi>(context, listen: false).onVisible(true);
-                        setState(() {
-                          _index = index;
-                        });
-                        print(value.allAssignment[_index].name);
+                        onTap: () async {
+                          // await Provider.of<ResultApi>(context, listen: false).getResult(
+                          //   value.allAssignment[index].courseId,
+                          //   value.allAssignment[index].id,
+                          // );
+                          Provider.of<AssignmentApi>(context, listen: false).onVisible(true);
+                          setState(() {
+                            _index = index;
+                          });
+                          print(value.allAssignment[_index].name);
 
-                        // context.goNamed(
-                        //   ResultScreen.routeName,
-                        //   params: {
-                        //     'assignmentId':
-                        //         value.allAssignment![index].id.toString(),
-                        //     'lessonId': Provider.of<AssignmentApi>(context,
-                        //             listen: false)
-                        //         .lessonId
-                        //         .toString(),
-                        //   },
-                        // );
-                      },
+                          // context.goNamed(
+                          //   ResultScreen.routeName,
+                          //   params: {
+                          //     'assignmentId':
+                          //         value.allAssignment![index].id.toString(),
+                          //     'lessonId': Provider.of<AssignmentApi>(context,
+                          //             listen: false)
+                          //         .lessonId
+                          //         .toString(),
+                          //   },
+                          // );
+                        },
+                      ),
                     ),
                   ),
                 ),
                 if (Provider.of<AssignmentApi>(context).resultVisible)
-                  ResultScreen(
-                    name: value.allAssignment[_index].name,
-                    // lessonId: Provider.of<AssignmentApi>(
-                    //   context,
-                    //   listen: false,
-                    // ).lessonId,
-                    // assignmentId: value.allAssignment![_index].id,
+                  Flexible(
+                    flex: 4,
+                    child: Provider.of<AssignmentApi>(context).resultVisible
+                        ? ResultScreen(
+                            name: value.allAssignment[_index].name,
+                            // lessonId: Provider.of<AssignmentApi>(
+                            //   context,
+                            //   listen: false,
+                            // ).lessonId,
+                            // assignmentId: value.allAssignment![_index].id,
+                          )
+                        : Center(
+                            child: Text('Please, choose the assignment'),
+                          ),
                   )
               ],
             ),
