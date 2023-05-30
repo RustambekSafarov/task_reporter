@@ -1,12 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:task_reporter/providers/result_api.dart';
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({
-    super.key,
-  });
+  String name;
+  ResultScreen({super.key, required this.name});
   static const routeName = 'result-screen';
 
   @override
@@ -14,7 +15,7 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder(
-          future: Provider.of<ResultApi>(context, listen: false).getResult(),
+          future: Provider.of<ResultApi>(context, listen: false).getResult(name),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -23,11 +24,7 @@ class ResultScreen extends StatelessWidget {
                   size: 30,
                 ),
               );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text(snapshot.error.toString()),
-              );
-            } else {
+            } else if (snapshot.hasData) {
               return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Consumer<ResultApi>(
@@ -50,24 +47,24 @@ class ResultScreen extends StatelessWidget {
                             label: Text('Total'),
                           ),
                           ...List.generate(
-                            5,
+                            snapshot.data![0].tasks.length,
                             (index) => DataColumn(
                               label: Text("${index + 1} task"),
                             ),
                           ),
-                          const DataColumn(
-                            label: Text(
-                              'Attempts',
-                            ),
-                          ),
+                          // const DataColumn(
+                          //   label: Text(
+                          //     'Attempts',
+                          //   ),
+                          // ),
                         ],
-                        rows: value.allResult
+                        rows: snapshot.data!
                             .map(
                               (e) => DataRow(
                                 cells: [
                                   DataCell(
                                     Text(
-                                      e.student,
+                                      e.student['first_name'] + ' ' + e.student['last_name'],
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500,
@@ -83,22 +80,22 @@ class ResultScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  ...e.result.map(
+                                  ...e.tasks.map(
                                     (e) => DataCell(
                                       Text(e['is_correct'] ? '✅' : '❌'),
                                     ),
                                   ),
-                                  DataCell(
-                                    Center(
-                                      child: Text(
-                                        e.attempt.toString(),
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  // DataCell(
+                                  //   Center(
+                                  //     child: Text(
+                                  //       e.rightAnswers.toString(),
+                                  //       style: const TextStyle(
+                                  //         fontSize: 20,
+                                  //         fontWeight: FontWeight.w500,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             )
@@ -107,6 +104,10 @@ class ResultScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+              );
+            } else {
+              return Center(
+                child: Text(snapshot.error.toString()),
               );
             }
           }),

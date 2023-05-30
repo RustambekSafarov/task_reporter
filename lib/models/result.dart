@@ -1,27 +1,20 @@
 class Result {
-  final String student;
-  final int attempt;
-  final List result;
-  final int rightAnswers;
-  Result({
-    required this.student,
-    required this.attempt,
-    required this.result,
-    required this.rightAnswers,
-  });
+  Map student;
+  List tasks;
+  int? rightAnswers;
+  Result({required this.student, required this.tasks, this.rightAnswers});
 
   factory Result.getResult(Map data) {
-    int rightAnswerss = 0;
-    for (Map i in data['result']) {
+    int _rightAnswerss = 0;
+    for (Map i in data['tasks']) {
       if (i['is_correct']) {
-        rightAnswerss++;
+        _rightAnswerss++;
       }
     }
     return Result(
       student: data['student'],
-      attempt: data['attempt'],
-      result: data['result'],
-      rightAnswers: rightAnswerss,
+      tasks: data['tasks'],
+      rightAnswers: _rightAnswerss,
     );
   }
 }

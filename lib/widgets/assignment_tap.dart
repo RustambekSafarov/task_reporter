@@ -49,6 +49,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                         setState(() {
                           _index = index;
                         });
+                        print(value.allAssignment[_index].name);
 
                         // context.goNamed(
                         //   ResultScreen.routeName,
@@ -67,12 +68,13 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                 ),
                 if (Provider.of<AssignmentApi>(context).resultVisible)
                   ResultScreen(
-                      // lessonId: Provider.of<AssignmentApi>(
-                      //   context,
-                      //   listen: false,
-                      // ).lessonId,
-                      // assignmentId: value.allAssignment![_index].id,
-                      )
+                    name: value.allAssignment[_index].name,
+                    // lessonId: Provider.of<AssignmentApi>(
+                    //   context,
+                    //   listen: false,
+                    // ).lessonId,
+                    // assignmentId: value.allAssignment![_index].id,
+                  )
               ],
             ),
           ),
