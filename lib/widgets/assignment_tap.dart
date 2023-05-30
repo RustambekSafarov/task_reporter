@@ -75,11 +75,6 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                     child: Provider.of<AssignmentApi>(context).resultVisible
                         ? ResultScreen(
                             name: value.allAssignment[_index].name,
-                            // lessonId: Provider.of<AssignmentApi>(
-                            //   context,
-                            //   listen: false,
-                            // ).lessonId,
-                            // assignmentId: value.allAssignment![_index].id,
                           )
                         : Center(
                             child: Text('Please, choose the assignment'),

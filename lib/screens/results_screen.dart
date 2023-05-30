@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:task_reporter/providers/result_api.dart';
+import 'package:collection/collection.dart';
 
 class ResultScreen extends StatelessWidget {
   String name;
@@ -34,6 +35,7 @@ class ResultScreen extends StatelessWidget {
                       child: DataTable(
                         border: TableBorder.all(),
                         columns: [
+                          DataColumn(label: const Text('N')),
                           const DataColumn(
                             label: Text(
                               'Fullname',
@@ -49,7 +51,7 @@ class ResultScreen extends StatelessWidget {
                           ...List.generate(
                             snapshot.data![0].tasks.length,
                             (index) => DataColumn(
-                              label: Text("${index + 1} task"),
+                              label: Text("task ${index + 1}"),
                             ),
                           ),
                           // const DataColumn(
@@ -59,12 +61,15 @@ class ResultScreen extends StatelessWidget {
                           // ),
                         ],
                         rows: snapshot.data!
-                            .map(
-                              (e) => DataRow(
+                            .mapIndexed(
+                              (index, e) => DataRow(
                                 cells: [
                                   DataCell(
+                                    Text((index + 1).toString()),
+                                  ),
+                                  DataCell(
                                     Text(
-                                      e.student['first_name'] + ' ' + e.student['last_name'],
+                                      '${e.student['first_name']} ${e.student['last_name']}',
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500,

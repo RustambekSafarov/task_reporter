@@ -17,8 +17,12 @@ class ResultApi with ChangeNotifier {
     List dataFromJson = jsonDecode(response.body) ?? [];
     print(dataFromJson.runtimeType);
     _allResults = dataFromJson.map<Result>((data) => Result.getResult(data)).toList();
+    List<Result> data = dataFromJson.map<Result>((data) => Result.getResult(data)).toList();
+    data.sort(
+      (a, b) => b.rightAnswers!.compareTo(a.rightAnswers!),
+    );
     print(_allResults);
-    return dataFromJson.map<Result>((data) => Result.getResult(data)).toList();
+    return data;
     // notifyListeners();
   }
 }
