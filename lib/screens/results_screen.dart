@@ -13,10 +13,11 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder(
-          future: Provider.of<ResultApi>(context, listen: false).getResult(name),
+          future: Provider.of<ResultApi>(context, listen: false).getResult(name, args['groupId']),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -35,7 +36,7 @@ class ResultScreen extends StatelessWidget {
                       child: DataTable(
                         border: TableBorder.all(),
                         columns: [
-                          DataColumn(label: const Text('N')),
+                          const DataColumn(label: Text('N')),
                           const DataColumn(
                             label: Text(
                               'Fullname',
@@ -86,9 +87,20 @@ class ResultScreen extends StatelessWidget {
                                     ),
                                   ),
                                   ...e.tasks.map(
-                                    (e) => DataCell(
-                                      Text(e['is_correct'] ? '✅' : '❌'),
-                                    ),
+                                    (e) => DataCell(e['is_correct']
+                                            ? Icon(
+                                                Icons.check_box_rounded,
+                                                color: Colors.green,
+                                              )
+                                            : Icon(
+                                                Icons.close,
+                                                color: Colors.redAccent,
+                                              )
+
+                                        // Text(
+                                        //   e['is_correct'] ? '✅' : '❌',
+                                        // ),
+                                        ),
                                   ),
                                   // DataCell(
                                   //   Center(

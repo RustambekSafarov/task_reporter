@@ -11,8 +11,8 @@ class ResultApi with ChangeNotifier {
     return [..._allResults];
   }
 
-  Future<List<Result>> getResult(String assingmentName) async {
-    Uri url = Uri.parse('https://calms.pythonanywhere.com/reporter/?assignment_name=$assingmentName');
+  Future<List<Result>> getResult(String assingmentName, String groupName) async {
+    Uri url = Uri.parse('https://calms.pythonanywhere.com/reporter/?assignment_name=$assingmentName&group_name=$groupName');
     http.Response response = await http.get(url);
     List dataFromJson = jsonDecode(response.body) ?? [];
     print(dataFromJson.runtimeType);
