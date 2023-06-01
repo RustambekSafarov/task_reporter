@@ -8,16 +8,16 @@ import 'package:collection/collection.dart';
 
 class ResultScreen extends StatelessWidget {
   String name;
-  ResultScreen({super.key, required this.name});
+  String groupName;
+  ResultScreen({super.key, required this.name, required this.groupName});
   static const routeName = 'result-screen';
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder(
-          future: Provider.of<ResultApi>(context, listen: false).getResult(name, args['groupId']),
+          future: Provider.of<ResultApi>(context, listen: false).getResult(name, groupName),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -27,6 +27,8 @@ class ResultScreen extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasData) {
+              print(groupName);
+              print(name);
               return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Consumer<ResultApi>(

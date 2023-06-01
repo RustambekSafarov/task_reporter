@@ -12,7 +12,7 @@ class ResultApi with ChangeNotifier {
   }
 
   Future<List<Result>> getResult(String assingmentName, String groupName) async {
-    Uri url = Uri.parse('https://calms.pythonanywhere.com/reporter/?assignment_name=$assingmentName&group_name=$groupName');
+    Uri url = Uri.parse('https://calms.pythonanywhere.com/reporter/by-group/?assignment_name=$assingmentName&group_name=$groupName');
     http.Response response = await http.get(url);
     List dataFromJson = jsonDecode(response.body) ?? [];
     print(dataFromJson.runtimeType);
@@ -21,7 +21,8 @@ class ResultApi with ChangeNotifier {
     data.sort(
       (a, b) => b.rightAnswers!.compareTo(a.rightAnswers!),
     );
-    print(_allResults);
+    print(url);
+    // print(_allResults);
     return data;
     // notifyListeners();
   }

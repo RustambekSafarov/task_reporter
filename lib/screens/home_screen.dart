@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       body: FutureBuilder(
         future: Provider.of<AssignmentApi>(context, listen: false).getAssignments(),
@@ -29,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? Center(
                       child: Text(snapshot.error.toString()),
                     )
-                  : const AssignmentWidget();
+                  : AssignmentWidget(
+                      groupName: args,
+                    );
         },
       ),
     );

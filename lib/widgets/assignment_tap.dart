@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +7,8 @@ import '../providers/assignment_api.dart';
 import '../screens/results_screen.dart';
 
 class AssignmentWidget extends StatefulWidget {
-  const AssignmentWidget({super.key});
+  String groupName;
+  AssignmentWidget({super.key, required this.groupName});
 
   @override
   State<AssignmentWidget> createState() => _AssignmentWidgetState();
@@ -75,6 +76,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                     child: Provider.of<AssignmentApi>(context).resultVisible
                         ? ResultScreen(
                             name: value.allAssignment[_index].name,
+                            groupName: widget.groupName,
                           )
                         : Center(
                             child: Text('Please, choose the assignment'),

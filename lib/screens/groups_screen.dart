@@ -35,9 +35,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
                     ),
                   ),
                   onTap: () {
-                    Navigator.pushNamed(context, 'home', arguments: {
-                      'groupId': Provider.of<GroupApi>(context, listen: false).allGroups[index].name.toString(),
-                    });
+                    Navigator.pushNamed(
+                      context,
+                      'home',
+                      arguments: Provider.of<GroupApi>(context, listen: false).allGroups[index].name.toString(),
+                    );
                   },
                 ),
               ),
