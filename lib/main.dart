@@ -27,6 +27,7 @@ class _MyRootState extends State<MyRoot> {
         ChangeNotifierProvider(create: (context) => GroupApi()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Students task reporter',
         routes: {
           '/': (context) => const GroupsScreen(),

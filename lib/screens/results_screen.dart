@@ -70,15 +70,29 @@ class ResultScreen extends StatelessWidget {
                                   DataCell(
                                     Text((index + 1).toString()),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      '${e.student['first_name']} ${e.student['last_name']}',
+                                  DataCell(SelectableText.rich(
+                                    
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(text: e.student['first_name'] + ' '),
+                                        TextSpan(text: e.student['last_name']),
+                                      ],
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                  ),
+
+                                  )
+
+                                      // Text(
+                                      //   '${e.student['first_name']} ${e.student['last_name']}',
+                                      //   style: const TextStyle(
+                                      //     fontSize: 20,
+                                      //     fontWeight: FontWeight.w500,
+                                      //   ),
+                                      // ),
+                                      ),
                                   DataCell(
                                     Text(
                                       e.rightAnswers.toString(),
