@@ -34,7 +34,7 @@ class _MyRootState extends State<MyRoot> {
         // initialRoute: 'homee',
         routes: {
           '/': (context) => const GroupsScreen(),
-          'home': (context) => Home(),
+          'home': (context) => const Home(),
         },
       ),
     );

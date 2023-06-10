@@ -9,11 +9,10 @@ import 'package:task_reporter/widgets/assignment_tap.dart';
 import 'package:task_reporter/widgets/student_widget.dart';
 
 import '../providers/assignment_api.dart';
-import '../providers/result_api.dart';
 import '../widgets/drawer.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -34,8 +33,7 @@ class _HomeState extends State<Home> {
         body: Column(
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 12),
+              padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 12),
               child: Row(
                 children: [
                   IconButton(
@@ -45,11 +43,7 @@ class _HomeState extends State<Home> {
                     icon: const Icon(Icons.menu),
                   ),
                   const SizedBox(width: 10),
-                  Text(
-                    args ?? 'No Group Selected',
-                    style: GoogleFonts.monda(
-                        fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
+                  Text(args ?? 'No Group Selected', style: GoogleFonts.monda(fontSize: 20, fontWeight: FontWeight.w600)),
                   // const SizedBox(width: 10),
                   const Spacer(),
                   const Expanded(
@@ -59,11 +53,7 @@ class _HomeState extends State<Home> {
                       indicatorColor: Colors.orange,
                       labelColor: Colors.orange,
                       unselectedLabelColor: Colors.black,
-                      labelStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromARGB(255, 119, 115, 115),
-                      ),
+                      labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 119, 115, 115)),
                       tabs: [
                         Tab(text: 'Assignments'),
                         Tab(text: 'Students'),
@@ -80,35 +70,22 @@ class _HomeState extends State<Home> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   FutureBuilder(
-                    future: Provider.of<AssignmentApi>(context, listen: false)
-                        .getAssignments(),
+                    future: Provider.of<AssignmentApi>(context, listen: false).getAssignments(),
                     builder: (context, snapshot) {
                       return snapshot.connectionState == ConnectionState.waiting
                           ? const Center(
-                              child: SpinKitThreeInOut(
-                                color: Colors.black,
-                                size: 30,
-                              ),
+                              child: SpinKitThreeInOut(color: Colors.black, size: 30),
                             )
                           : snapshot.hasError
-                              ? Center(
-                                  child: Text(snapshot.error.toString()),
-                                )
-                              : AssignmentWidget(
-                                  groupName: args,
-                                );
+                              ? Center(child: Text(snapshot.error.toString()))
+                              : AssignmentWidget(groupName: args);
                     },
                   ),
                   FutureBuilder(
-                    future: Provider.of<StudentApi>(context, listen: false)
-                        .getStudents(),
-                    builder: (context, snapshot) => StudentTapWidget(
-                        data: Provider.of<StudentApi>(context, listen: false)
-                            .students),
+                    future: Provider.of<StudentApi>(context, listen: false).getStudents(),
+                    builder: (context, snapshot) => StudentTapWidget(data: Provider.of<StudentApi>(context, listen: false).students),
                   ),
-                  Center(
-                    child: Text('Teachers'),
-                  ),
+                  const Center(child: Text('Teachers')),
                 ],
               ),
             ),

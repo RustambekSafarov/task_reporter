@@ -19,8 +19,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
       body: Column(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 12),
+            padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 12),
             child: Row(
               children: [
                 IconButton(
@@ -30,14 +29,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                   icon: const Icon(Icons.menu),
                 ),
                 const SizedBox(width: 10),
-                const Text(
-                  'Groups',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-                ),
+                const Text('Groups', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black)),
               ],
             ),
           ),
@@ -46,35 +38,18 @@ class _GroupsScreenState extends State<GroupsScreen> {
             builder: (context, snapshot) => Container(
               padding: const EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height * 0.9,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                // color: Colors.white54,
-              ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: Provider.of<GroupApi>(context, listen: false)
-                    .allGroups
-                    .length,
+                itemCount: Provider.of<GroupApi>(context, listen: false).allGroups.length,
                 itemBuilder: (context, index) => Card(
                   child: ListTile(
                     title: Text(
-                      Provider.of<GroupApi>(context, listen: false)
-                          .allGroups[index]
-                          .name,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(255, 110, 109, 109),
-                      ),
+                      Provider.of<GroupApi>(context, listen: false).allGroups[index].name,
+                      style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 110, 109, 109)),
                     ),
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        'home',
-                        arguments: Provider.of<GroupApi>(context, listen: false)
-                            .allGroups[index]
-                            .name
-                            .toString(),
-                      );
+                      Navigator.pushNamed(context, 'home', arguments: Provider.of<GroupApi>(context, listen: false).allGroups[index].name.toString());
                     },
                   ),
                 ),
