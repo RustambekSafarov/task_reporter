@@ -16,134 +16,140 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: FutureBuilder(
-          future: Provider.of<ResultApi>(context, listen: false).getResult(name, groupName),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: SpinKitThreeInOut(
-                  color: Colors.black,
-                  size: 30,
-                ),
-              );
-            } else if (snapshot.hasData) {
-              print(groupName);
-              print(name);
-              return Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Consumer<ResultApi>(
-                  builder: (context, value, child) => SingleChildScrollView(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                        border: TableBorder.all(),
-                        columns: [
-                          const DataColumn(label: Text('N')),
-                          const DataColumn(
-                            label: Text(
-                              'Fullname',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Text('Total'),
-                          ),
-                          ...List.generate(
-                            snapshot.data![0].tasks.length,
-                            (index) => DataColumn(
-                              label: Text("task ${index + 1}"),
-                            ),
-                          ),
-                          // const DataColumn(
-                          //   label: Text(
-                          //     'Attempts',
-                          //   ),
-                          // ),
-                        ],
-                        rows: snapshot.data!
-                            .mapIndexed(
-                              (index, e) => DataRow(
-                                cells: [
-                                  DataCell(
-                                    Text((index + 1).toString()),
+      body: groupName != 'no'
+          ? FutureBuilder(
+              future: Provider.of<ResultApi>(context, listen: false)
+                  .getResult(name, groupName),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: SpinKitThreeInOut(
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  print(groupName);
+                  print(name);
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Consumer<ResultApi>(
+                      builder: (context, value, child) => SingleChildScrollView(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(
+                            border: TableBorder.all(),
+                            columns: [
+                              const DataColumn(label: Text('N')),
+                              const DataColumn(
+                                label: Text(
+                                  'Fullname',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  DataCell(SelectableText.rich(
-                                    
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(text: e.student['first_name'] + ' '),
-                                        TextSpan(text: e.student['last_name']),
-                                      ],
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const DataColumn(
+                                label: Text('Total'),
+                              ),
+                              ...List.generate(
+                                snapshot.data![0].tasks.length,
+                                (index) => DataColumn(
+                                  label: Text("task ${index + 1}"),
+                                ),
+                              ),
+                              // const DataColumn(
+                              //   label: Text(
+                              //     'Attempts',
+                              //   ),
+                              // ),
+                            ],
+                            rows: snapshot.data!
+                                .mapIndexed(
+                                  (index, e) => DataRow(
+                                    cells: [
+                                      DataCell(
+                                        Text((index + 1).toString()),
                                       ),
-                                    ),
+                                      DataCell(SelectableText.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: e.student['first_name'] +
+                                                    ' '),
+                                            TextSpan(
+                                                text: e.student['last_name']),
+                                          ],
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      )
 
-                                  )
+                                          // Text(
+                                          //   '${e.student['first_name']} ${e.student['last_name']}',
+                                          //   style: const TextStyle(
+                                          //     fontSize: 20,
+                                          //     fontWeight: FontWeight.w500,
+                                          //   ),
+                                          // ),
+                                          ),
+                                      DataCell(
+                                        Text(
+                                          e.rightAnswers.toString(),
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      ...e.tasks.map(
+                                        (e) => DataCell(e['is_correct']
+                                                ? Icon(
+                                                    Icons.check_box_rounded,
+                                                    color: Colors.green,
+                                                  )
+                                                : Icon(
+                                                    Icons.close,
+                                                    color: Colors.redAccent,
+                                                  )
 
-                                      // Text(
-                                      //   '${e.student['first_name']} ${e.student['last_name']}',
-                                      //   style: const TextStyle(
-                                      //     fontSize: 20,
-                                      //     fontWeight: FontWeight.w500,
+                                            // Text(
+                                            //   e['is_correct'] ? '✅' : '❌',
+                                            // ),
+                                            ),
+                                      ),
+                                      // DataCell(
+                                      //   Center(
+                                      //     child: Text(
+                                      //       e.rightAnswers.toString(),
+                                      //       style: const TextStyle(
+                                      //         fontSize: 20,
+                                      //         fontWeight: FontWeight.w500,
+                                      //       ),
+                                      //     ),
                                       //   ),
                                       // ),
-                                      ),
-                                  DataCell(
-                                    Text(
-                                      e.rightAnswers.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
+                                    ],
                                   ),
-                                  ...e.tasks.map(
-                                    (e) => DataCell(e['is_correct']
-                                            ? Icon(
-                                                Icons.check_box_rounded,
-                                                color: Colors.green,
-                                              )
-                                            : Icon(
-                                                Icons.close,
-                                                color: Colors.redAccent,
-                                              )
-
-                                        // Text(
-                                        //   e['is_correct'] ? '✅' : '❌',
-                                        // ),
-                                        ),
-                                  ),
-                                  // DataCell(
-                                  //   Center(
-                                  //     child: Text(
-                                  //       e.rightAnswers.toString(),
-                                  //       style: const TextStyle(
-                                  //         fontSize: 20,
-                                  //         fontWeight: FontWeight.w500,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            )
-                            .toList(),
+                                )
+                                .toList(),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            } else {
-              return Center(
-                child: Text(snapshot.error.toString()),
-              );
-            }
-          }),
+                  );
+                } else {
+                  return Center(
+                    child: Text(snapshot.error.toString()),
+                  );
+                }
+              })
+          : Center(
+              child: Text('No group selected'),
+            ),
     );
   }
 }
